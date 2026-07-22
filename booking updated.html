@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Rise Construction LLC — Booking</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --navy: #10233F;
+  --navy-deep: #0A1830;
+  --paper: #EAEEF3;
+  --line: #7C9BC0;
+  --accent: #2F7BEF;
+  --accent-deep: #1B5FCB;
+  --accent-light: #8FC1FF;
+  --steel: #5B6770;
+  --charcoal: #1B1F23;
+  --ok-green: #3A7D5C;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  background: var(--paper);
+  color: var(--charcoal);
+  font-family: 'Work Sans', sans-serif;
+  line-height: 1.5;
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  position: relative;
+  background: var(--navy);
+  color: var(--paper);
+  overflow: hidden;
+  padding: 64px 24px 48px;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(124,155,192,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,155,192,0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events:none;
+}
+.hero-inner{
+  position:relative;
+  max-width: 980px;
+  margin: 0 auto;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  gap: 18px;
+}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  border: 1px solid rgba(47,123,239,0.5);
+  padding: 5px 12px;
+  border-radius: 2px;
+}
+.hero h1{
+  font-family:'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(34px, 6vw, 62px);
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+}
+.hero h1 span{ color: var(--accent); }
+.hero p.sub{
+  max-width: 520px;
+  color: #C7D2DE;
+  font-size: 16px;
+}
+
+.blueprint-draw{
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin-top: 8px;
+}
+.blueprint-draw path, .blueprint-draw line, .blueprint-draw circle{
+  fill:none;
+  stroke: var(--line);
+  stroke-width: 1.6;
+  stroke-dasharray: 1600;
+  stroke-dashoffset: 1600;
+  animation: draw 2.6s ease forwards;
+}
+.blueprint-draw .headlight{
+  fill: var(--accent);
+  stroke: none;
+  opacity: 0;
+  animation: fadein 0.6s ease 2.3s forwards, glow 1.8s ease-in-out 2.9s infinite;
+}
+.blueprint-draw .dim{
+  stroke: #7C8A99;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  animation: fadein 1s ease 2.2s forwards;
+  opacity: 0;
+}
+.blueprint-draw text{
+  fill: #93A6B8;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 9px;
+  animation: fadein 1s ease 2.4s forwards;
+  opacity: 0;
+}
+@keyframes draw{ to{ stroke-dashoffset: 0; } }
+@keyframes fadein{ to{ opacity: 1; } }
+@keyframes glow{
+  0%,100%{ opacity: 1; filter: drop-shadow(0 0 0px var(--accent)); }
+  50%{ opacity: 0.6; filter: drop-shadow(0 0 6px var(--accent)); }
+}
+@media (prefers-reduced-motion: reduce){
+  .blueprint-draw path, .blueprint-draw line, .blueprint-draw circle, .blueprint-draw .headlight, .blueprint-draw .dim, .blueprint-draw text{
+    animation: none !important; stroke-dashoffset:0; opacity:1;
+  }
+}
+
+/* ---------- SECTIONS ---------- */
+main{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 56px 20px 80px;
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 860px){
+  main{ grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+.card{
+  position: relative;
+  background: #fff;
+  border: 1.5px solid var(--charcoal);
+  padding: 30px 26px 28px;
+}
+.card .dim-frame{
+  position:absolute;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--steel);
+  letter-spacing: 0.06em;
+}
+.dim-top{ top:-22px; left:0; right:0; display:flex; justify-content:space-between; }
+.dim-top::before, .dim-top::after{ content:"↔"; }
+
+.card-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 6px;
+}
+.card h2{
+  font-family:'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+.card p.desc{
+  color: #40474D;
+  font-size: 14.5px;
+  margin-bottom: 22px;
+  max-width: 46ch;
+}
+
+.estimate-card h2{ color: var(--navy); }
+.estimate-card{ border-top: 6px solid var(--navy); }
+
+.emergency-card{ border-top: 6px solid var(--accent); background: var(--charcoal); color: var(--paper); }
+.emergency-card h2{ color: var(--accent-light); }
+.emergency-card p.desc{ color: #C9CDD0; }
+.emergency-card .card-label{ color: #9AA1A6; }
+
+label{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--steel);
+  margin-bottom: 5px;
+}
+.emergency-card label{ color: #9AA1A6; }
+
+input, select, textarea{
+  width: 100%;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14.5px;
+  padding: 10px 11px;
+  border: 1.5px solid #C7CCCF;
+  background: #fff;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+}
+input:focus, select:focus, textarea:focus{
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.emergency-card input, .emergency-card select, .emergency-card textarea{
+  background: #22272B;
+  border-color: #454B50;
+  color: var(--paper);
+}
+textarea{ resize: vertical; min-height: 64px; }
+
+.row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px){ .row2{ grid-template-columns: 1fr; } }
+
+button{
+  font-family:'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  padding: 13px 20px;
+  width: 100%;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+button:disabled{ opacity: 0.6; cursor: not-allowed; }
+.btn-primary{
+  background: var(--navy);
+  color: var(--paper);
+}
+.btn-primary:hover:not(:disabled){ background: var(--navy-deep); }
+
+.btn-emergency{
+  background: var(--accent);
+  color: #fff;
+  font-size: 17px;
+  padding: 16px 20px;
+}
+.btn-emergency:hover:not(:disabled){ background: var(--accent-deep); }
+
+.call-block{
+  display:flex;
+  align-items:center;
+  gap: 14px;
+  background: #22272B;
+  border: 1.5px solid #454B50;
+  padding: 16px;
+  margin-bottom: 22px;
+  text-decoration:none;
+}
+.call-block .pulse{
+  width: 12px; height:12px; border-radius:50%;
+  background: var(--accent);
+  flex-shrink:0;
+  box-shadow: 0 0 0 0 rgba(47,123,239,0.7);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse{
+  0%{ box-shadow: 0 0 0 0 rgba(47,123,239,0.55); }
+  70%{ box-shadow: 0 0 0 10px rgba(47,123,239,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(47,123,239,0); }
+}
+.call-block .call-text{ font-family:'IBM Plex Mono', monospace; color: var(--paper); }
+.call-block .call-text b{ font-family:'Oswald',sans-serif; font-size:19px; letter-spacing:0.03em; display:block; color:#fff; }
+
+.divider-or{
+  display:flex; align-items:center; gap:10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 11px; color:#9AA1A6; text-transform:uppercase;
+  margin: 4px 0 18px;
+}
+.divider-or::before, .divider-or::after{ content:""; flex:1; height:1px; background:#454B50; }
+
+.confirm{
+  border: 1.5px dashed var(--ok-green);
+  color: var(--ok-green);
+  background: rgba(58,125,92,0.08);
+  padding: 14px 16px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 13px;
+  display:none;
+}
+.emergency-card .confirm{
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+  background: rgba(47,123,239,0.1);
+}
+.confirm.show{ display:block; }
+.error-msg{
+  border: 1.5px dashed #C0392B;
+  color: #C0392B;
+  background: rgba(192,57,43,0.08);
+  padding: 12px 14px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  display:none;
+  margin-top: 10px;
+}
+.error-msg.show{ display:block; }
+
+form.hidden{ display:none; }
+
+/* ---------- OWNER PANEL ---------- */
+.owner-toggle{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  text-align:center;
+}
+.owner-toggle button{
+  width:auto;
+  background: transparent;
+  border: 1.5px solid var(--steel);
+  color: var(--steel);
+  padding: 9px 18px;
+  font-size: 12px;
+}
+.owner-panel{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  display:none;
+}
+.owner-panel.show{ display:block; }
+.owner-panel h3{
+  font-family:'Oswald', sans-serif;
+  text-transform:uppercase;
+  font-size: 16px;
+  color: var(--navy);
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+.request-item{
+  background:#fff;
+  border-left: 4px solid var(--navy);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: #40474D;
+}
+.request-item.emg{ border-left-color: var(--accent); }
+.request-item .tag{
+  color: var(--accent-deep);
+  text-transform:uppercase;
+  font-weight:600;
+  margin-right: 8px;
+}
+.request-item.est .tag{ color: var(--navy); }
+.empty-note{ color:#8B9096; font-family:'IBM Plex Mono', monospace; font-size:12.5px; }
+
+footer{
+  background: var(--navy);
+  color: #8FA3B5;
+  text-align:center;
+  padding: 26px 20px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+footer b{ color: var(--paper); }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Serving Tampa Bay Since 2013</span>
+    <h1>New Rise<br><span>Construction LLC</span></h1>
+    <p class="sub">From the first estimate to the 3am emergency call — we build it right and we show up.</p>
+
+    <svg class="blueprint-draw" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- ground line -->
+      <line x1="15" y1="178" x2="405" y2="178"/>
+      <!-- cargo van body: tall roofline, flat hood -->
+      <path d="M35,178 L35,110 L55,102 L80,60 L92,52 L330,52 L350,68 L350,178"/>
+      <!-- hood front -->
+      <path d="M35,110 L35,140 L20,140 L20,160 L35,160"/>
+      <!-- side window -->
+      <path d="M95,62 L185,62 L185,100 L95,100 Z"/>
+      <!-- windshield line -->
+      <line x1="92" y1="52" x2="80" y2="100"/>
+      <line x1="80" y1="100" x2="185" y2="100"/>
+      <!-- sliding door + panel lines -->
+      <line x1="200" y1="100" x2="200" y2="178"/>
+      <line x1="200" y1="120" x2="330" y2="120"/>
+      <line x1="270" y1="100" x2="270" y2="178"/>
+      <!-- rear door seam -->
+      <line x1="350" y1="90" x2="350" y2="178"/>
+      <!-- wheels -->
+      <circle cx="95" cy="178" r="20"/>
+      <circle cx="95" cy="178" r="7"/>
+      <circle cx="300" cy="178" r="20"/>
+      <circle cx="300" cy="178" r="7"/>
+      <!-- headlight -->
+      <circle class="headlight" cx="24" cy="128" r="4"/>
+      <!-- dimension line -->
+      <line class="dim" x1="35" y1="193" x2="350" y2="193"/>
+      <text x="140" y="199">COMPANY VAN — ROLLING 24/7</text>
+    </svg>
+  </div>
+</section>
+
+<main>
+  <!-- ESTIMATE CARD -->
+  <div class="card estimate-card">
+    <div class="dim-frame dim-top"><span>FREE</span><span>NO OBLIGATION</span></div>
+    <div class="card-label">Section 01</div>
+    <h2>Schedule a Free Estimate</h2>
+    <p class="desc">Tell us about the project and pick a time that works. We'll come take a look and put a real number on it — no pressure.</p>
+
+    <form id="estimateForm">
+      <label for="e-name">Full name</label>
+      <input id="e-name" required placeholder="Jordan Ramirez">
+
+      <div class="row2">
+        <div>
+          <label for="e-phone">Phone</label>
+          <input id="e-phone" type="tel" required placeholder="(555) 123-4567">
+        </div>
+        <div>
+          <label for="e-type">Project type</label>
+          <select id="e-type" required>
+            <option value="">Select one</option>
+            <option>Roofing</option>
+            <option>Remodel</option>
+            <option>Addition</option>
+            <option>Repair</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="e-address">Property address</label>
+      <input id="e-address" required placeholder="1284 Palm Ave, Tampa, FL">
+
+      <div class="row2">
+        <div>
+          <label for="e-date">Preferred date</label>
+          <input id="e-date" type="date" required>
+        </div>
+        <div>
+          <label for="e-window">Time window</label>
+          <select id="e-window" required>
+            <option value="">Select one</option>
+            <option>Morning (8–11am)</option>
+            <option>Afternoon (12–4pm)</option>
+            <option>Evening (4–7pm)</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="e-notes">Notes (optional)</label>
+      <textarea id="e-notes" placeholder="Anything we should know before we arrive?"></textarea>
+
+      <button type="submit" class="btn-primary">Request Estimate</button>
+      <div class="error-msg" id="e-error">Something went wrong sending this. Please call us directly instead.</div>
+    </form>
+    <div class="confirm" id="e-confirm">✓ Request received — we'll confirm your time by phone or text shortly.</div>
+  </div>
+
+  <!-- EMERGENCY CARD -->
+  <div class="card emergency-card">
+    <div class="dim-frame dim-top"><span>24/7</span><span>URGENT RESPONSE</span></div>
+    <div class="card-label">Section 02</div>
+    <h2>24/7 Emergency Repairs</h2>
+    <p class="desc">Burst pipe, storm damage, structural failure — call and we're on our way. No booking needed.</p>
+
+    <a class="call-block" href="tel:+18133522931">
+      <span class="pulse"></span>
+      <span class="call-text">Call now, 24 hours a day<b>(813) 352-2931</b></span>
+    </a>
+
+    <div class="divider-or">or text us the details</div>
+
+    <form id="emergencyForm">
+      <div class="row2">
+        <div>
+          <label for="m-name">Name</label>
+          <input id="m-name" required placeholder="Full name">
+        </div>
+        <div>
+          <label for="m-phone">Phone</label>
+          <input id="m-phone" type="tel" required placeholder="(555) 000-0000">
+        </div>
+      </div>
+
+      <label for="m-address">Property address</label>
+      <input id="m-address" required placeholder="Where should we head?">
+
+      <label for="m-issue">What's the emergency?</label>
+      <textarea id="m-issue" required placeholder="e.g. Ceiling collapsed after the storm, water coming through"></textarea>
+
+      <label for="m-danger">Is anyone in immediate danger?</label>
+      <select id="m-danger" required>
+        <option value="">Select one</option>
+        <option>No — property damage only</option>
+        <option>Yes — call 911 first, then us</option>
+      </select>
+
+      <button type="submit" class="btn-emergency">Notify Us — We're On Our Way</button>
+      <div class="error-msg" id="m-error">Something went wrong sending this. Please use the call button above instead.</div>
+    </form>
+    <div class="confirm" id="m-confirm">✓ We've got your location and the issue — heading your way. Keep your phone nearby.</div>
+  </div>
+</main>
+
+<div class="owner-toggle">
+  <button id="ownerToggleBtn" type="button">Owner view: see recent requests</button>
+</div>
+<div class="owner-panel" id="ownerPanel">
+  <h3>Recent Requests (only visible to you on this device)</h3>
+  <div id="ownerList"></div>
+</div>
+
+<footer>
+  <b>New Rise Construction LLC</b> — Serving Tampa Bay Since 2013 · Replace the phone number and address placeholders above with your real details before sharing this link.
+</footer>
+
+<!-- ============================================================
+  EMAILJS SETUP — fill in the four values below after you finish
+  the setup steps in chat. Until then, forms still save locally
+  (Owner view) and show a confirmation, but no email/text sends.
+============================================================= -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+const EMAILJS_CONFIG = {
+  PUBLIC_KEY: "YiBRDscDWWZFm31G2",
+  ESTIMATE_SERVICE_ID: "service_osa472m",
+  EMERGENCY_SERVICE_ID: "service_w91cq9a",
+  ESTIMATE_TEMPLATE_ID: "template_4o213oe",
+  EMERGENCY_TEMPLATE_ID: "template_ayjvcvs"
+};
+
+const ZAPIER_CONFIG = {
+  ESTIMATE_WEBHOOK: "https://hooks.zapier.com/hooks/catch/28322010/44ryghj/",
+  EMERGENCY_WEBHOOK: "YOUR_EMERGENCY_ZAPIER_WEBHOOK_URL"
+};
+
+async function sendToZapier(webhookUrl, data){
+  if(!webhookUrl || webhookUrl.startsWith("YOUR_")) return { ok:false, skipped:true };
+  try{
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    return { ok:true };
+  }catch(err){
+    console.error('Zapier webhook failed', err);
+    return { ok:false, skipped:false };
+  }
+}
+
+let emailjsReady = false;
+try{
+  if (window.emailjs && EMAILJS_CONFIG.PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+    emailjs.init({ publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
+    emailjsReady = true;
+  }
+}catch(err){ console.error('EmailJS init failed', err); }
+
+async function saveRequest(key, data){
+  try{
+    const res = await window.storage.set(key, JSON.stringify(data), false);
+    return !!res;
+  }catch(err){
+    console.error('Storage error', err);
+    return false;
+  }
+}
+
+async function sendEmail(serviceId, templateId, params){
+  if(!emailjsReady) return { ok:false, skipped:true };
+  try{
+    await emailjs.send(serviceId, templateId, params);
+    return { ok:true };
+  }catch(err){
+    console.error('EmailJS send failed', err);
+    return { ok:false, skipped:false };
+  }
+}
+
+document.getElementById('estimateForm').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = ev.target.querySelector('button');
+  const errorBox = document.getElementById('e-error');
+  errorBox.classList.remove('show');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const data = {
+    type: 'estimate',
+    name: document.getElementById('e-name').value,
+    phone: document.getElementById('e-phone').value,
+    projectType: document.getElementById('e-type').value,
+    address: document.getElementById('e-address').value,
+    date: document.getElementById('e-date').value,
+    window: document.getElementById('e-window').value,
+    notes: document.getElementById('e-notes').value,
+    submittedAt: new Date().toISOString()
+  };
+
+  await saveRequest('estimates:' + Date.now(), data);
+  const result = await sendEmail(EMAILJS_CONFIG.ESTIMATE_SERVICE_ID, EMAILJS_CONFIG.ESTIMATE_TEMPLATE_ID, data);
+  await sendToZapier(ZAPIER_CONFIG.ESTIMATE_WEBHOOK, data);
+
+  btn.disabled = false;
+  btn.textContent = 'Request Estimate';
+
+  if(result.ok || result.skipped){
+    ev.target.classList.add('hidden');
+    document.getElementById('e-confirm').classList.add('show');
+    refreshOwnerPanel();
+  }else{
+    errorBox.classList.add('show');
+  }
+});
+
+document.getElementById('emergencyForm').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = ev.target.querySelector('button');
+  const errorBox = document.getElementById('m-error');
+  errorBox.classList.remove('show');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const data = {
+    type: 'emergency',
+    name: document.getElementById('m-name').value,
+    phone: document.getElementById('m-phone').value,
+    address: document.getElementById('m-address').value,
+    issue: document.getElementById('m-issue').value,
+    danger: document.getElementById('m-danger').value,
+    submittedAt: new Date().toISOString()
+  };
+
+  await saveRequest('emergencies:' + Date.now(), data);
+  const result = await sendEmail(EMAILJS_CONFIG.EMERGENCY_SERVICE_ID, EMAILJS_CONFIG.EMERGENCY_TEMPLATE_ID, data);
+  await sendToZapier(ZAPIER_CONFIG.EMERGENCY_WEBHOOK, data);
+
+  btn.disabled = false;
+  btn.textContent = "Notify Us — We're On Our Way";
+
+  if(result.ok || result.skipped){
+    ev.target.classList.add('hidden');
+    document.getElementById('m-confirm').classList.add('show');
+    refreshOwnerPanel();
+  }else{
+    errorBox.classList.add('show');
+  }
+});
+
+document.getElementById('ownerToggleBtn').addEventListener('click', () => {
+  const panel = document.getElementById('ownerPanel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show')) refreshOwnerPanel();
+});
+
+async function refreshOwnerPanel(){
+  const list = document.getElementById('ownerList');
+  list.innerHTML = '';
+  let keys = [];
+  try{
+    const est = await window.storage.list('estimates:', false);
+    const emg = await window.storage.list('emergencies:', false);
+    keys = [...(est?.keys || []), ...(emg?.keys || [])];
+  }catch(err){
+    console.error('List error', err);
+  }
+  if(keys.length === 0){
+    list.innerHTML = '<div class="empty-note">No requests yet — submissions will appear here.</div>';
+    return;
+  }
+  keys.sort().reverse();
+  for(const k of keys){
+    try{
+      const res = await window.storage.get(k, false);
+      if(!res) continue;
+      const d = JSON.parse(res.value);
+      const div = document.createElement('div');
+      const isEmg = d.type === 'emergency';
+      div.className = 'request-item ' + (isEmg ? 'emg' : 'est');
+      div.innerHTML = isEmg
+        ? `<span class="tag">Emergency</span>${d.name} · ${d.phone} · ${d.address}<br>${d.issue}`
+        : `<span class="tag">Estimate</span>${d.name} · ${d.phone} · ${d.projectType}<br>${d.address} — ${d.date || 'no date'} (${d.window || 'n/a'})`;
+      list.appendChild(div);
+    }catch(err){
+      console.error('Parse error', err);
+    }
+  }
+}
+</script>
+</body>
+</html>
