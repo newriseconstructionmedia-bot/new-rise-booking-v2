@@ -18,6 +18,7 @@
   --steel: #5B6770;
   --charcoal: #1B1F23;
   --ok-green: #3A7D5C;
+  --warn: #C0392B;
 }
 
 *{box-sizing:border-box; margin:0; padding:0;}
@@ -153,16 +154,7 @@ main{
   letter-spacing: 0.06em;
 }
 .dim-top{ top:-22px; left:0; right:0; display:flex; justify-content:space-between; }
-.dim-top::before, .dim-top::after{ content:"↔"; }
 
-.card-label{
-  font-family:'IBM Plex Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--steel);
-  margin-bottom: 6px;
-}
 .card h2{
   font-family:'Oswald', sans-serif;
   text-transform: uppercase;
@@ -184,7 +176,6 @@ main{
 .emergency-card{ border-top: 6px solid var(--accent); background: var(--charcoal); color: var(--paper); }
 .emergency-card h2{ color: var(--accent-light); }
 .emergency-card p.desc{ color: #C9CDD0; }
-.emergency-card .card-label{ color: #9AA1A6; }
 
 label{
   display:block;
@@ -297,9 +288,10 @@ button:disabled{ opacity: 0.6; cursor: not-allowed; }
   background: rgba(47,123,239,0.1);
 }
 .confirm.show{ display:block; }
-.error-msg{
-  border: 1.5px dashed #C0392B;
-  color: #C0392B;
+
+.warn-msg{
+  border: 1.5px dashed var(--warn);
+  color: var(--warn);
   background: rgba(192,57,43,0.08);
   padding: 12px 14px;
   font-family:'IBM Plex Mono', monospace;
@@ -307,7 +299,12 @@ button:disabled{ opacity: 0.6; cursor: not-allowed; }
   display:none;
   margin-top: 10px;
 }
-.error-msg.show{ display:block; }
+.emergency-card .warn-msg{
+  color: #FF8A78;
+  background: rgba(192,57,43,0.15);
+  border-color: #FF8A78;
+}
+.warn-msg.show{ display:block; }
 
 form.hidden{ display:none; }
 
@@ -374,38 +371,37 @@ footer b{ color: var(--paper); }
 </head>
 <body>
 
+<!--
+  OWNER SETUP CHECKLIST (this comment is not visible on the live page)
+  1. Phone number: search this file for 8133522931 and replace with your real number
+     (both the tel: link and the display text).
+  2. Address / service area: update "Tampa Bay" mentions if that's not accurate.
+  3. Emergency Zapier webhook: replace EMERGENCY_WEBHOOK below with your real
+     Catch Hook URL from Zapier once that Zap is built.
+-->
+
 <section class="hero">
   <div class="hero-inner">
     <span class="eyebrow">Serving Tampa Bay Since 2013</span>
     <h1>New Rise<br><span>Construction LLC</span></h1>
-    <p class="sub">From the first estimate to the 3am emergency call — we build it right and we show up.</p>
+    <p class="sub">Book a free estimate below, or reach us any hour for an emergency repair.</p>
 
     <svg class="blueprint-draw" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- ground line -->
       <line x1="15" y1="178" x2="405" y2="178"/>
-      <!-- cargo van body: tall roofline, flat hood -->
       <path d="M35,178 L35,110 L55,102 L80,60 L92,52 L330,52 L350,68 L350,178"/>
-      <!-- hood front -->
       <path d="M35,110 L35,140 L20,140 L20,160 L35,160"/>
-      <!-- side window -->
       <path d="M95,62 L185,62 L185,100 L95,100 Z"/>
-      <!-- windshield line -->
       <line x1="92" y1="52" x2="80" y2="100"/>
       <line x1="80" y1="100" x2="185" y2="100"/>
-      <!-- sliding door + panel lines -->
       <line x1="200" y1="100" x2="200" y2="178"/>
       <line x1="200" y1="120" x2="330" y2="120"/>
       <line x1="270" y1="100" x2="270" y2="178"/>
-      <!-- rear door seam -->
       <line x1="350" y1="90" x2="350" y2="178"/>
-      <!-- wheels -->
       <circle cx="95" cy="178" r="20"/>
       <circle cx="95" cy="178" r="7"/>
       <circle cx="300" cy="178" r="20"/>
       <circle cx="300" cy="178" r="7"/>
-      <!-- headlight -->
       <circle class="headlight" cx="24" cy="128" r="4"/>
-      <!-- dimension line -->
       <line class="dim" x1="35" y1="193" x2="350" y2="193"/>
       <text x="140" y="199">COMPANY VAN — ROLLING 24/7</text>
     </svg>
@@ -416,9 +412,8 @@ footer b{ color: var(--paper); }
   <!-- ESTIMATE CARD -->
   <div class="card estimate-card">
     <div class="dim-frame dim-top"><span>FREE</span><span>NO OBLIGATION</span></div>
-    <div class="card-label">Section 01</div>
     <h2>Schedule a Free Estimate</h2>
-    <p class="desc">Tell us about the project and pick a time that works. We'll come take a look and put a real number on it — no pressure.</p>
+    <p class="desc">Tell us about the project and pick a time. We'll come take a look and give you a real number.</p>
 
     <form id="estimateForm">
       <label for="e-name">Full name</label>
@@ -465,15 +460,14 @@ footer b{ color: var(--paper); }
       <textarea id="e-notes" placeholder="Anything we should know before we arrive?"></textarea>
 
       <button type="submit" class="btn-primary">Request Estimate</button>
-      <div class="error-msg" id="e-error">Something went wrong sending this. Please call us directly instead.</div>
+      <div class="warn-msg" id="e-error">That didn't go through. Call us directly instead — number's in the section to the right.</div>
     </form>
-    <div class="confirm" id="e-confirm">✓ Request received — we'll confirm your time by phone or text shortly.</div>
+    <div class="confirm" id="e-confirm">✓ Got it. We'll confirm your time by phone or text shortly.</div>
   </div>
 
   <!-- EMERGENCY CARD -->
   <div class="card emergency-card">
     <div class="dim-frame dim-top"><span>24/7</span><span>URGENT RESPONSE</span></div>
-    <div class="card-label">Section 02</div>
     <h2>24/7 Emergency Repairs</h2>
     <p class="desc">Burst pipe, storm damage, structural failure — call and we're on our way. No booking needed.</p>
 
@@ -482,7 +476,7 @@ footer b{ color: var(--paper); }
       <span class="call-text">Call now, 24 hours a day<b>(813) 352-2931</b></span>
     </a>
 
-    <div class="divider-or">or text us the details</div>
+    <div class="divider-or">or send us the details</div>
 
     <form id="emergencyForm">
       <div class="row2">
@@ -499,7 +493,7 @@ footer b{ color: var(--paper); }
       <label for="m-address">Property address</label>
       <input id="m-address" required placeholder="Where should we head?">
 
-      <label for="m-issue">What's the emergency?</label>
+      <label for="m-issue">What's going on?</label>
       <textarea id="m-issue" required placeholder="e.g. Ceiling collapsed after the storm, water coming through"></textarea>
 
       <label for="m-danger">Is anyone in immediate danger?</label>
@@ -510,7 +504,7 @@ footer b{ color: var(--paper); }
       </select>
 
       <button type="submit" class="btn-emergency">Notify Us — We're On Our Way</button>
-      <div class="error-msg" id="m-error">Something went wrong sending this. Please use the call button above instead.</div>
+      <div class="warn-msg" id="m-error">That didn't go through. Please use the call button above — don't wait on a form for an active emergency.</div>
     </form>
     <div class="confirm" id="m-confirm">✓ We've got your location and the issue — heading your way. Keep your phone nearby.</div>
   </div>
@@ -525,14 +519,9 @@ footer b{ color: var(--paper); }
 </div>
 
 <footer>
-  <b>New Rise Construction LLC</b> — Serving Tampa Bay Since 2013 · Replace the phone number and address placeholders above with your real details before sharing this link.
+  <b>New Rise Construction LLC</b> · Tampa Bay, FL · (813) 352-2931
 </footer>
 
-<!-- ============================================================
-  EMAILJS SETUP — fill in the four values below after you finish
-  the setup steps in chat. Until then, forms still save locally
-  (Owner view) and show a confirmation, but no email/text sends.
-============================================================= -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const EMAILJS_CONFIG = {
@@ -545,21 +534,29 @@ const EMAILJS_CONFIG = {
 
 const ZAPIER_CONFIG = {
   ESTIMATE_WEBHOOK: "https://hooks.zapier.com/hooks/catch/28322010/44ryghj/",
-  EMERGENCY_WEBHOOK: "YOUR_EMERGENCY_ZAPIER_WEBHOOK_URL"
+  EMERGENCY_WEBHOOK: "https://hooks.zapier.com/hooks/catch/28322010/44rbn0l/"
 };
 
+// Sends to a Zapier Catch Hook and reports back what actually happened,
+// instead of assuming success just because fetch() didn't throw.
 async function sendToZapier(webhookUrl, data){
-  if(!webhookUrl || webhookUrl.startsWith("YOUR_")) return { ok:false, skipped:true };
+  if(!webhookUrl || webhookUrl.startsWith("YOUR_")){
+    return { ok:false, skipped:true, reason:'not configured' };
+  }
   try{
-    await fetch(webhookUrl, {
+    const res = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-    return { ok:true };
+    if(!res.ok){
+      console.error('Zapier webhook returned an error status', res.status);
+      return { ok:false, skipped:false, reason:'status ' + res.status };
+    }
+    return { ok:true, skipped:false };
   }catch(err){
     console.error('Zapier webhook failed', err);
-    return { ok:false, skipped:false };
+    return { ok:false, skipped:false, reason:'network error' };
   }
 }
 
@@ -613,13 +610,18 @@ document.getElementById('estimateForm').addEventListener('submit', async (ev) =>
   };
 
   await saveRequest('estimates:' + Date.now(), data);
-  const result = await sendEmail(EMAILJS_CONFIG.ESTIMATE_SERVICE_ID, EMAILJS_CONFIG.ESTIMATE_TEMPLATE_ID, data);
-  await sendToZapier(ZAPIER_CONFIG.ESTIMATE_WEBHOOK, data);
+  const emailResult = await sendEmail(EMAILJS_CONFIG.ESTIMATE_SERVICE_ID, EMAILJS_CONFIG.ESTIMATE_TEMPLATE_ID, data);
+  const zapResult = await sendToZapier(ZAPIER_CONFIG.ESTIMATE_WEBHOOK, data);
 
   btn.disabled = false;
   btn.textContent = 'Request Estimate';
 
-  if(result.ok || result.skipped){
+  // Only counts as delivered if at least one real notification channel
+  // (not just "skipped because unconfigured") actually succeeded.
+  const delivered = emailResult.ok || zapResult.ok;
+  const anyConfigured = !emailResult.skipped || !zapResult.skipped;
+
+  if(delivered || !anyConfigured){
     ev.target.classList.add('hidden');
     document.getElementById('e-confirm').classList.add('show');
     refreshOwnerPanel();
@@ -647,13 +649,16 @@ document.getElementById('emergencyForm').addEventListener('submit', async (ev) =
   };
 
   await saveRequest('emergencies:' + Date.now(), data);
-  const result = await sendEmail(EMAILJS_CONFIG.EMERGENCY_SERVICE_ID, EMAILJS_CONFIG.EMERGENCY_TEMPLATE_ID, data);
-  await sendToZapier(ZAPIER_CONFIG.EMERGENCY_WEBHOOK, data);
+  const emailResult = await sendEmail(EMAILJS_CONFIG.EMERGENCY_SERVICE_ID, EMAILJS_CONFIG.EMERGENCY_TEMPLATE_ID, data);
+  const zapResult = await sendToZapier(ZAPIER_CONFIG.EMERGENCY_WEBHOOK, data);
 
   btn.disabled = false;
   btn.textContent = "Notify Us — We're On Our Way";
 
-  if(result.ok || result.skipped){
+  const delivered = emailResult.ok || zapResult.ok;
+  const anyConfigured = !emailResult.skipped || !zapResult.skipped;
+
+  if(delivered || !anyConfigured){
     ev.target.classList.add('hidden');
     document.getElementById('m-confirm').classList.add('show');
     refreshOwnerPanel();
